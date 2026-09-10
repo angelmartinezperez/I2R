@@ -34,23 +34,18 @@ class TopKArray:
                 return i
         return -1
 
-    def update(self, key: str) -> None:
+    def update(self, key: str, count: int) -> None:
         self.total_count += 1
 
         idx = self._find(key)
-
         if idx >= 0:
-            # --- existing key: increment and bubble left ---
-            count, _ = self.arr[idx]
-            self.arr[idx] = (count + 1, key)
+            # count is monotonic non-decreasing, so the key can only move left
+            self.arr[idx] = (count, key)
             while idx > 0 and self.arr[idx] > self.arr[idx - 1]:
-                self.arr[idx], self.arr[idx - 1] = (
-                    self.arr[idx - 1], self.arr[idx]
-                )
+                self.arr[idx], self.arr[idx - 1] = self.arr[idx - 1], self.arr[idx]
                 idx -= 1
         else:
-            # --- new key: insert (1, key) from position k ---
-            elem = (1, key)
+            elem = (count, key)
             i = self.k - 1
             while i >= 0 and elem > self.arr[i]:
                 if i + 1 < self.k:
@@ -58,7 +53,6 @@ class TopKArray:
                 i -= 1
             if i + 1 < self.k:
                 self.arr[i + 1] = elem
-            # else: elem is smaller than everything, so it falls off
 
     def top_k(self):
         """

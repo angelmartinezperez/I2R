@@ -22,7 +22,7 @@ class CountMinSketch:
         for row in range(self.rows):
             idx = self._bucket(element, row)
             self.count_matrix[row][idx] += 1
-        self.topk.update(element)
+        self.topk.update(element, self.query(element))
 
     def query(self, element) -> int:
         return min(
