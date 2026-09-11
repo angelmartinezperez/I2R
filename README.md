@@ -17,3 +17,6 @@ Following https://kafka.apache.org/quickstart/
 4. Run example.
 5. Read the events: './kafka-console-consumer.sh --topic quickstart-events --from-beginning --bootstrap-server localhost:9092'
 
+## CMS Router
+See topic: ./kafka-console-consumer.sh --topic wordcount_events --from-beginning --bootstrap-server localhost:9092
+
