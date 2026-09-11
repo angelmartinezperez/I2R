@@ -3,6 +3,7 @@ IDEA: A simple data structure that holds the top k elements with a fixed array s
 COULD AFFECT RESULTS: the string comparison is > (not hashed), that may bias the results in case of collisions in all buckets.
 PROMPT: I want to change the implementation to something simpler. As we know the elements can only increase in increments of 1, I want to create an array of k elements, each element being a tuple (count, key). Comparison between these tuples should prioritise count and then compare by key (larger first too so that the empty strings are removed).
 The array is always ordered. It is initialized to all elements (0, ""). When an element is updated, it is searched in the array and moved left until its position is correct. If it is not found, proceed as if it were in the position k + 1.
+NOTE: The prompt is incorrect, increments can be of more than 1. It works anyways.
 """
 class TopKArray:
     """
