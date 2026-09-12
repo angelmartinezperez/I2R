@@ -1,5 +1,8 @@
 # I2R
 
+## Python env
+PyFlink needs 3.9, 3.10, 3.11 or 3.12.
+
 ## Kafka docker
 Start with vs code menu.
 kafka is in /opt/kafka.
