@@ -4,7 +4,7 @@ from pyflink.common import SimpleStringSchema, WatermarkStrategy
 from pyflink.datastream import StreamExecutionEnvironment
 from pyflink.datastream.connectors.kafka import KafkaOffsetsInitializer, KafkaSource
 
-TOPIC = "wordcount_events"
+TOPIC = "wordcount_events_individual"
 BOOTSTRAP_SERVERS = "localhost:9092"
 
 def read_kafka_streaming():
