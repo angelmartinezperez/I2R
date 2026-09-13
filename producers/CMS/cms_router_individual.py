@@ -29,6 +29,7 @@ CMS_BUCKETS = 20
 CMS_K = 20
 
 REST_WORD = ""             # sentinel word for the "rest" aggregate event
+ROUTER_ID = 1              # constant key used for every Kafka message
 
 
 def main():
@@ -39,10 +40,10 @@ def main():
     total_tokens = len(tokens)
 
     # 2. Set up Kafka producer – JsonSerializer handles the value encoding,
-    #    and keys are encoded as UTF-8 bytes.
+    #    and keys are encoded as big-endian int bytes.
     producer = KafkaProducer(
         bootstrap_servers=BOOTSTRAP_SERVERS,
-        key_serializer=str.encode,
+        key_serializer=lambda k: k.to_bytes(4, byteorder="big"),
         value_serializer=JsonSerializer(),
     )
 
@@ -78,12 +79,12 @@ def main():
             producer.send(
                 TOPIC,
                 value=payload,                 # dict → JSON bytes via JsonSerializer
-                key=word,                      # str → bytes via key_serializer
+                key=ROUTER_ID,                 # constant int key → bytes
                 timestamp_ms=event_ts_ms,      # Kafka record timestamp
             )
 
-        # Emit a separate event for the "rest" aggregate, keyed by the
-        # empty-string sentinel so it stays on a stable partition.
+        # Emit a separate event for the "rest" aggregate, now using the
+        # same constant ROUTER_ID key so it stays on the same partition.
         rest_payload = {
             "word": REST_WORD,
             "count": rest,
@@ -92,7 +93,7 @@ def main():
         producer.send(
             TOPIC,
             value=rest_payload,
-            key=REST_WORD,
+            key=ROUTER_ID,
             timestamp_ms=event_ts_ms,
         )
 
