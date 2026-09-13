@@ -23,3 +23,6 @@ Following https://kafka.apache.org/quickstart/
 ## CMS Router
 See topic: ./kafka-console-consumer.sh --topic wordcount_events --from-beginning --bootstrap-server localhost:9092
 
+## To do
+Clean constants and DTOs (put them in a single file).
+Programs have to be executed in their folder because of the paths. Fix.
