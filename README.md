@@ -26,3 +26,7 @@ See topic: ./kafka-console-consumer.sh --topic wordcount_events --from-beginning
 ## To do
 Clean constants and DTOs (put them in a single file).
 Programs have to be executed in their folder because of the paths. Fix.
+
+## Questions
+Is it good practice to include the key and timestamp inside the event payload?
+    It duplicates data but it is gonna have to be included anyway by flink to process it.

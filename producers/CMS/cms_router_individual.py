@@ -73,6 +73,8 @@ def main():
         # Emit one Kafka message per (word, count) pair
         for word, count in top_list:
             payload = {
+                "id": ROUTER_ID,
+                "timestamp": event_ts_ms,
                 "word": word,
                 "count": count,
             }
@@ -86,6 +88,8 @@ def main():
         # Emit a separate event for the "rest" aggregate, now using the
         # same constant ROUTER_ID key so it stays on the same partition.
         rest_payload = {
+            "id": ROUTER_ID,
+            "timestamp": event_ts_ms,
             "word": REST_WORD,
             "count": rest,
         }
