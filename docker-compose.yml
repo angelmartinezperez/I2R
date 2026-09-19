@@ -1,8 +1,14 @@
-# There is an example for the environment variables at https://hub.docker.com/r/apache/kafka.
-# But I only need the default for the moment.
 services:
+  # There is an example for the environment variables at https://hub.docker.com/r/apache/kafka.
+  # But I only need the default for the moment.
   broker:
     image: apache/kafka:latest
     container_name: broker
     ports: # This forwards the ports from the container to localhost.
-      - 9092:9092
+      - "9092:9092"
+
+  iotdb:
+    image: apache/iotdb:latest
+    container_name: iotdb
+    ports:
+      - "6667:6667"
