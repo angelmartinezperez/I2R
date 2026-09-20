@@ -5,7 +5,7 @@ from pyflink.datastream import StreamExecutionEnvironment
 from pyflink.datastream.connectors.kafka import KafkaOffsetsInitializer, KafkaSource
 
 TOPIC = "wordcount_events_individual"
-BOOTSTRAP_SERVERS = "localhost:9092"
+BOOTSTRAP_SERVERS = "broker:9092"
 
 def read_kafka_streaming():
     # Create a streaming execution environment

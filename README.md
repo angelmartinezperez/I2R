@@ -1,7 +1,9 @@
 # I2R
 
-## Python env
-PyFlink needs 3.9, 3.10, 3.11 or 3.12.
+## Set up
+The devcontainer and containers need to share a docker network for communication.
+The easiest way to do this is to run 'docker compose up -d' first and then the devcontainer.
+Running the devcontainer will fail if the network does not exist yet.
 
 ## Kafka docker
 Start with vs code menu.

@@ -6,7 +6,7 @@ USER root
 
 # Install python3 and pip3.
 RUN apt-get update -y && \
-apt-get install -y python3 python3-pip python3-dev git && rm -rf /var/lib/apt/lists/*
+apt-get install -y python3 python3-pip python3-dev git docker.io && rm -rf /var/lib/apt/lists/*
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
 # From https://github.com/microsoft/vscode-dev-containers/blob/main/containers/python-3/.devcontainer/Dockerfile
@@ -14,5 +14,3 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 COPY requirements.txt /tmp/pip-tmp/
 RUN pip3 --disable-pip-version-check --no-cache-dir install --break-system-packages -r /tmp/pip-tmp/requirements.txt \
     && rm -rf /tmp/pip-tmp
-
-USER flink
