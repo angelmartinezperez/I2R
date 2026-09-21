@@ -1,3 +1,4 @@
+from pathlib import Path
 import re
 import json
 import time
@@ -19,7 +20,7 @@ def tokenize(text: str):
 # ------------------------------------------------------------
 # Configuration
 # ------------------------------------------------------------
-INPUT_FILE = "./test/el_quijote.txt"
+INPUT_FILE = Path(__file__).resolve().parent / "test" / "el_quijote.txt"
 TOPIC = "wordcount_events_individual"
 BOOTSTRAP_SERVERS = "broker:9092"
 BATCH_SIZE = 1000          # words per batch
