@@ -1,7 +1,10 @@
 # This hash is non cryptographic, that is not an issue for this use case.
 # We just need a hash that can accept a seed.
 import mmh3
-from TopKArray import TopKArray
+try:
+    from .TopKArray import TopKArray
+except ImportError:
+    from TopKArray import TopKArray
 
 # Incredibly inefficient implementation.
 # No parallelism, no efficient hash usage, I think even the memory usage is inefficient.

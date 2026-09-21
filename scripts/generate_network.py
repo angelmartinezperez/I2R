@@ -10,7 +10,7 @@ NUM_ROWS = 100_000
 OUTPUT_FILE = "network_traffic.csv"
 
 # Start of simulated capture
-START_TIME = datetime(2026, 9, 21, 10, 0, 0)
+START_TIME = datetime.now()
 
 
 def random_private_ip():
@@ -21,13 +21,23 @@ def random_private_ip():
     ])
 
     return str(
-        IPv4Address(network) + random.randint(1, 254)
+        IPv4Address(network) + random.randint(1, 1)
     )
 
+N = 5
+ALPHA = 3.0
+
+# Generate IPs with a power-law weighting toward lower integer values
+weights = [1 / (i ** ALPHA) for i in range(1, N + 1)]
+
+public_ips = [
+    IPv4Address(random.randint(1, 0xFFFFFFFF))
+    for _ in range(N)
+]
 
 def random_public_ip():
     while True:
-        ip = IPv4Address(random.randint(1, 0xFFFFFFFF))
+        ip = random.choices(public_ips, weights=weights, k=1)[0]
 
         if not (
             ip.is_private
@@ -81,9 +91,9 @@ def generate_csv():
         ])
 
         for _ in range(NUM_ROWS):
-            # Advance simulated time by 1–500 microseconds
+            # Advance simulated time by 1–100 microseconds
             current_time += timedelta(
-                microseconds=random.randint(1, 500)
+                microseconds=random.randint(1, 100)
             )
 
             ip_src = random_ip()
