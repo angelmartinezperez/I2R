@@ -21,6 +21,19 @@ services:
     ports: # This forwards the ports from the container to localhost.
       - "9092:9092"
 
+  kafbat-ui:
+    container_name: kafbat-ui
+    image: ghcr.io/kafbat/kafka-ui:latest
+    ports:
+      - 8080:8080
+    depends_on:
+      - broker
+    environment:
+      DYNAMIC_CONFIG_ENABLED: 'true'
+      SWAGGER_UI_ENABLED: 'true'
+      KAFKA_CLUSTERS_0_NAME: broker
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: broker:9092
+
   # Flink in standalone (we manage the containers ourselves) session (one cluster to which we send jobs) mode.
   # From https://nightlies.apache.org/flink/flink-docs-release-2.2/docs/deployment/resource-providers/standalone/docker/
   jobmanager:
