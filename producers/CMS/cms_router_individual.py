@@ -21,7 +21,7 @@ def tokenize(text: str):
 # ------------------------------------------------------------
 INPUT_FILE = "./test/el_quijote.txt"
 TOPIC = "wordcount_events_individual"
-BOOTSTRAP_SERVERS = "localhost:9092"
+BOOTSTRAP_SERVERS = "broker:9092"
 BATCH_SIZE = 1000          # words per batch
 INTERVAL_SEC = 0.1         # simulated 100 ms between batches
 CMS_HASHES = 5

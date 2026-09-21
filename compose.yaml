@@ -1,3 +1,8 @@
+x-pyflink: &pyflink
+  build: ./pyflink
+  image: pyflink:2.2.1
+
+
 services:
   # There is an example for the environment variables at https://hub.docker.com/r/apache/kafka.
   # But I only need the default for the moment.
@@ -19,7 +24,8 @@ services:
   # Flink in standalone (we manage the containers ourselves) session (one cluster to which we send jobs) mode.
   # From https://nightlies.apache.org/flink/flink-docs-release-2.2/docs/deployment/resource-providers/standalone/docker/
   jobmanager:
-    image: flink:2.2.1
+    <<: *pyflink
+    container_name: jobmanager
     ports:
       - "8081:8081"
     command: jobmanager
@@ -29,7 +35,8 @@ services:
         jobmanager.rpc.address: jobmanager
 
   taskmanager:
-    image: flink:2.2.1
+    <<: *pyflink
+    container_name: taskmanager
     depends_on:
       - jobmanager
     command: taskmanager

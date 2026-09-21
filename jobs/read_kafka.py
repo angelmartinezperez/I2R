@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pyflink.common import SimpleStringSchema, WatermarkStrategy
+from pyflink.common import SimpleStringSchema, WatermarkStrategy, Configuration
 from pyflink.datastream import StreamExecutionEnvironment
 from pyflink.datastream.connectors.kafka import KafkaOffsetsInitializer, KafkaSource
 
@@ -8,8 +8,13 @@ TOPIC = "wordcount_events_individual"
 BOOTSTRAP_SERVERS = "broker:9092"
 
 def read_kafka_streaming():
-    # Create a streaming execution environment
-    env = StreamExecutionEnvironment.get_execution_environment()
+    config = Configuration()
+    config.set_string("rest.address", "jobmanager")
+    config.set_integer("rest.port", 8081)
+
+    env = StreamExecutionEnvironment.get_execution_environment(
+        configuration=config
+    )
 
     jar_uri = Path("./dependencies/flink-sql-connector-kafka-5.0.0-2.2.jar").resolve().as_uri()
     env.add_jars(jar_uri)
