@@ -4,6 +4,8 @@ FROM flink:2.2.1
 # apt-get gives an error if the user is not root due to missing permissions.
 USER root
 
+COPY ./dependencies/* /opt/flink/lib/
+
 # Install python3 and pip3.
 RUN apt-get update -y && \
 apt-get install -y python3 python3-pip python3-dev && rm -rf /var/lib/apt/lists/*
