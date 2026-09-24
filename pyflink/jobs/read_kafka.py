@@ -18,9 +18,6 @@ def read_kafka_streaming():
         configuration=config
     )
 
-    jar_uri = Path("./dependencies/flink-sql-connector-kafka-5.0.0-2.2.jar").resolve().as_uri()
-    env.add_jars(jar_uri)
-
     source = KafkaSource.builder() \
         .set_bootstrap_servers(BOOTSTRAP_SERVER) \
         .set_topics(TOPIC) \

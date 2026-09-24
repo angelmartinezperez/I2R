@@ -5,6 +5,8 @@ FROM flink:2.2.1
 # apt-get gives an error if the user is not root due to missing permissions.
 USER root
 
+COPY pyflink/dependencies/* /opt/flink/lib/
+
 # Install python3, pip3, git and docker.
 RUN apt-get update -y && \
 apt-get install -y python3 python3-pip python3-dev git docker.io && rm -rf /var/lib/apt/lists/*
