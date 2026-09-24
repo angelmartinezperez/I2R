@@ -37,7 +37,7 @@ def max_subflow_streaming():
     env.set_python_executable(sys.executable)
     env.set_parallelism(1)
 
-    jar_uri = (Path(__file__).parent / "dependencies" / "flink-sql-connector-kafka-5.0.0-2.2.jar").resolve().as_uri()
+    jar_uri = (Path(__file__).parent.parent / "dependencies" / "flink-sql-connector-kafka-5.0.0-2.2.jar").resolve().as_uri()
     env.add_jars(jar_uri)
 
     source = KafkaSource.builder() \
