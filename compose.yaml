@@ -44,7 +44,7 @@ services:
       - "8081:8081"
     command: jobmanager
     volumes:
-      - paimon_tmp:/tmp
+      - i2r_paimon:/tmp/paimon
     environment: # 'jobmanager.rpc.address: jobmanager' makes the address point to the 'jobmanager' service.
       - |
         FLINK_PROPERTIES=
@@ -57,7 +57,7 @@ services:
       - jobmanager
     command: taskmanager
     volumes:
-      - paimon_tmp:/tmp
+      - i2r_paimon:/tmp/paimon
     scale: 1 # We use a single task manager for development. It can still have multiple task slots.
     # The '-' makes it be an element in a list (environment contains one item, FLINK_PROPERTIES) 
     # and '|' makes the string contain multiple lines as in the input.
@@ -72,9 +72,5 @@ networks:
     name: i2r-network
 
 volumes:
-  paimon_tmp:
-    driver: local
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
-      o: size=256m   # adjust size as needed
+  i2r_paimon:
+    external: true
