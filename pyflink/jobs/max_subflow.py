@@ -27,13 +27,7 @@ json_serializer = JsonRowSerializationSchema.builder() \
 
 
 def max_subflow_streaming():
-    # I dont know which one of these settings makes it work. It is most probably a windows issue.
-    config = Configuration()
-    config.set_string("rest.address", "jobmanager")
-    config.set_integer("rest.port", 8081)
-    config.set_string("python.execution-mode", "process")
-
-    env = StreamExecutionEnvironment.get_execution_environment(config)
+    env = StreamExecutionEnvironment.get_execution_environment()
     env.set_python_executable(sys.executable)
     env.set_parallelism(1)
 

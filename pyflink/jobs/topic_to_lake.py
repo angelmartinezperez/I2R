@@ -4,14 +4,8 @@ from pyflink.table.catalog import Catalog
 
 # As we only use SQL, this could be done without python.
 def topic_to_lake():
-    config = Configuration()
-    config.set_string("rest.address", "jobmanager")
-    config.set_integer("rest.port", 8081)
-    config.set_string("python.execution-mode", "process")
-
     env_settings = EnvironmentSettings.new_instance() \
         .in_streaming_mode() \
-        .with_configuration(config) \
         .build()
     
     t_env = TableEnvironment.create(env_settings)

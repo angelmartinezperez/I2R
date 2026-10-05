@@ -10,13 +10,7 @@ TOPIC_SINK = "sink_wordcount_events_individual"
 BOOTSTRAP_SERVER = "broker:9092"
 
 def read_kafka_streaming():
-    config = Configuration()
-    config.set_string("rest.address", "jobmanager")
-    config.set_integer("rest.port", 8081)
-
-    env = StreamExecutionEnvironment.get_execution_environment(
-        configuration=config
-    )
+    env = StreamExecutionEnvironment.get_execution_environment()
 
     source = KafkaSource.builder() \
         .set_bootstrap_servers(BOOTSTRAP_SERVER) \
