@@ -1,10 +1,19 @@
 import sys
 
 from pyflink.common import Types
-from pyflink.datastream import StreamExecutionEnvironment
+from pyflink.datastream import MapFunction, StreamExecutionEnvironment
 
 from jobs.job import Job
-from jobs.functions.create_subjob import CreateSubjobFunction
+from jobs.topic_to_lake import TopicToLakeJob
+
+class CreateSubjobFunction(MapFunction):
+    # For testing purposes, send a job when the function is created.
+    def open(self, runtime_context):
+        subjob = TopicToLakeJob()
+        subjob.send()
+
+    def map(self, value):
+        return value
 
 class CreateSubjobJob(Job):
     """Create a subjob."""
@@ -26,8 +35,3 @@ class CreateSubjobJob(Job):
         mapped_stream.print()
 
         env.execute("Create Subjob Job")
-
-# So that it can be run as a script.
-if __name__ == "__main__":
-    job = CreateSubjobJob()
-    job.run()

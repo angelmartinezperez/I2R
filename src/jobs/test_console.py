@@ -8,7 +8,6 @@ from pyflink.datastream.connectors.number_seq import NumberSequenceSource
 
 import jobs
 from jobs.job import Job
-from jobs.functions.create_subjob import CreateSubjobFunction
 
 from pyflink.datastream.functions import MapFunction
 
@@ -25,7 +24,7 @@ class PrintConsole(MapFunction):
         time.sleep(1)
         return value
     
-class CreateSubjobJob(Job):
+class PrintConsoleJob(Job):
     """Create a subjob."""
 
     def run(self):
@@ -45,7 +44,3 @@ class CreateSubjobJob(Job):
         mapped_stream.print()
 
         env.execute("Create Subjob Job")
-
-if __name__ == "__main__":
-    job = CreateSubjobJob()
-    job.run()

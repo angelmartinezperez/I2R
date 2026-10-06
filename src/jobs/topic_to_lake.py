@@ -43,7 +43,3 @@ class TopicToLakeJob(Job):
                 `count` INT
             );""")
         t_env.execute_sql("INSERT INTO events SELECT * FROM events_source;")
-
-if __name__ == "__main__":
-    job = TopicToLakeJob()
-    job.run()
