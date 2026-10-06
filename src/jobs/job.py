@@ -5,8 +5,9 @@ import os
 import subprocess
 from pathlib import Path
 
-# import needed to be able to find the folder of the package.
+# imports needed to be able to find the folder of the package and entrypoint name.
 import jobs
+import jobs.entrypoint
 
 class Job:
     """Base (abstract) class for flink jobs."""
@@ -20,7 +21,7 @@ class Job:
         flink_home = os.environ["FLINK_HOME"]
         flink_executable = os.path.join(flink_home, "bin", "flink")
 
-        module = "jobs.factory"
+        entrypoint_module = jobs.entrypoint.__name__
         # Due to the way it is parsed, it is important that the path passed to -pyfs is absolute.
         package_parent_folder = Path(jobs.__file__).resolve().parent.parent
         with self._save_to_temp_file() as pickle_file:
@@ -29,20 +30,11 @@ class Job:
                     flink_executable,
                     "run",
                     "--pyFiles", package_parent_folder,
-                    "--pyModule", module,
+                    "--pyModule", entrypoint_module,
                     "--detached", # Only wait for the job to be created, not finished.
                     pickle_file.name
-                ],  
-                capture_output=True,
-                text=True,
+                ]
             )
-
-        # Print result for debugging.
-        print("STDOUT:")
-        print(result.stdout)
-
-        print("STDERR:")
-        print(result.stderr)
 
         if result.returncode != 0:
             raise RuntimeError(

@@ -13,4 +13,4 @@ docker exec broker /opt/kafka/bin/kafka-topics.sh --create --if-not-exists --boo
 
 # router example: produce and store in data lake.
 python ./producers/router.py > /dev/null
-flink run --detached --python pyflink/jobs/topic_to_lake.py 
+python ./src/init.py

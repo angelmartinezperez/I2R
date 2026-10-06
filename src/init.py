@@ -1,4 +1,5 @@
-from jobs import CreateSubjobJob
+from jobs import TopicToLakeJob, MaxSubflowJob
 
-job = CreateSubjobJob()
-job.send()
+jobs = [TopicToLakeJob(), MaxSubflowJob()]
+for job in jobs:
+    job.send()
