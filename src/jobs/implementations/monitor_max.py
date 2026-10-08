@@ -19,6 +19,7 @@ class MonitorOnSpike(ScalarFunction):
         if (value > self.threshold):
             monitor_job = MaxSubflowJob(self.slide_ms, Topics.network_events, Topics.max_subflow_fine_grained)
             monitor_job.send()
+        return value
             
 
 class MonitorMaxJob(Job):
@@ -45,12 +46,13 @@ class MonitorMaxJob(Job):
 
         table_source = t_env.from_path(self.source_topic.name)
 
+        monitor_on_spike = udf(MonitorOnSpike(self.threshold, self.slide_ms), result_type='INT')
         spikes = table_source \
-            .where(col("count") > 0)
+            .where(col("count") > self.threshold) \
+            .where(monitor_on_spike(col("count")) > 0) # Lazy way of triggering the method without selecting
 
         spikes.execute().print()
         
-        #monitor_on_spike = udf(MonitorOnSpike(self.threshold, self.slide_ms), result_type='INT')
 
 
         
