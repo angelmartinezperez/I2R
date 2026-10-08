@@ -52,6 +52,19 @@ class TypedTopic(KafkaTopic):
 
         return sink
 
+    def get_source_ddl(self):
+        return f"""
+            CREATE TABLE {self.name} (
+                {self.type_ddl()}
+            ) WITH (
+              'connector' = 'kafka',
+              'topic' = '{self.name}',
+              'properties.bootstrap.servers' = '{self.bootstrap_server}',
+              'scan.startup.mode' = 'earliest-offset',
+              'format' = 'json'
+            )
+            """
+
 class FlowTopic(TypedTopic):
     """Topic with flow typed messages."""
 
@@ -65,7 +78,7 @@ class FlowTopic(TypedTopic):
         )
 
     def type_ddl(self) -> str:
-        return "id INT, timestamp LONG, ip_src STRING, ip_dst STRING, count INT"
+        return "id INT, `timestamp` BIGINT, ip_src STRING, ip_dst STRING, `count` INT"
 
 
 class Topics():
